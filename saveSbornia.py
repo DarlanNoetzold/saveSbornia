@@ -52,6 +52,18 @@ def get_biggest_value(logs_to_order):
             biggest = i.get('log')
     return biggest
 
+def selectonSort(inputArray, n):
+    for i in range(0,n):
+        less = i
+        for j in range(i+1,n):
+            if(inputArray[j].get('log') < inputArray[less].get('log')):
+                less=j
+            j = j+1
+        aux = inputArray[i]
+        inputArray[i] = inputArray[less]
+        inputArray[less]=aux
+    return inputArray
+
 def countingSort(inputArray, maxElement):
 
     countArrayLength = maxElement+1
