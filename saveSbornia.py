@@ -104,12 +104,20 @@ if __name__ == "__main__":
 
     logs_to_order = get_logs_of_month()
 
-orderedLogs = countingSort(logs_to_order, get_biggest_value(logs_to_order))
+    if option == "1":
+        start = time.time()
+        orderedLogs = countingSort(logs_to_order, get_biggest_value(logs_to_order))
+        end = time.time()
+        print("Tempo de execução: " + str(end - start))
+    elif option == "2":
+        orderedLogs = selectonSort(logs_to_order, len(logs_to_order))
+    else:
+        orderedLogs = countingSort(logs_to_order, get_biggest_value(logs_to_order))
 
-index_guilted = (1000001 - (cont - len(orderedLogs)))
+    index_guilted = (1000001 - (cont - len(orderedLogs)))
 
-log_guilted = orderedLogs[index_guilted]
+    log_guilted = orderedLogs[index_guilted]
 
-for i in get_logs_of_month():
-    if i.get('log') == log_guilted:
-        print(i.get('user'))
+    for i in get_logs_of_month():
+        if i.get('log') == log_guilted:
+            print(i.get('user'))
