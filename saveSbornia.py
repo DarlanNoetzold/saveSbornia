@@ -96,7 +96,13 @@ def countingSort(inputArray, maxElement):
 
     return outputArray
 
-logs_to_order = get_logs_of_month()
+if __name__ == "__main__":
+    print("Qual algoritmo de ordenacao você deseja usar?")
+    print("1 - Counting Sort")
+    print("2 - Selection Sort")
+    option = input()
+
+    logs_to_order = get_logs_of_month()
 
 orderedLogs = countingSort(logs_to_order, get_biggest_value(logs_to_order))
 
