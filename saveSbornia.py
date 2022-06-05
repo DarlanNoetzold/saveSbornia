@@ -1,4 +1,6 @@
 import json
+import time
+
 cont = 0
 def get_full_data():
     with open('logNaveSbornia.txt', 'rb') as meu_json:
