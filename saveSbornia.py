@@ -138,7 +138,10 @@ if __name__ == "__main__":
         end = time.time()
         print("Tempo de execução: " + str(end - start))
     else:
-        orderedLogs = countingSort(logs_to_order, get_biggest_value(logs_to_order))
+        start = time.time()
+        orderedLogs = countingSortStable(logs_to_order, get_biggest_value(logs_to_order))
+        end = time.time()
+        print("Tempo de execução: " + str(end - start))
 
     index_guilted = (1000001 - (cont - len(orderedLogs)))
 
