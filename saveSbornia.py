@@ -112,7 +112,15 @@ if __name__ == "__main__":
         end = time.time()
         print("Tempo de execução: " + str(end - start))
     elif option == "2":
+        start = time.time()
         orderedLogs = selectonSort(logs_to_order, len(logs_to_order))
+        end = time.time()
+        print("Tempo de execução: " + str(end - start))
+    elif option == "3":
+        start = time.time()
+        orderedLogs = selectonSort(logs_to_order, len(logs_to_order))
+        end = time.time()
+        print("Tempo de execução: " + str(end - start))
     else:
         orderedLogs = countingSort(logs_to_order, get_biggest_value(logs_to_order))
 
