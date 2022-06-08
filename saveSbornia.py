@@ -98,6 +98,22 @@ def countingSort(inputArray, maxElement):
 
     return outputArray
 
+def countingSort(inputArray, maxElement):
+    countArrayLength = maxElement+1
+    countArray = [0] * countArrayLength
+
+    for el in inputArray:
+        countArray[el.get('log')] += 1
+
+    inputArray = []
+    for i in countArray:
+        while i >= 1:
+            inputArray.append(i);
+            i -= 1
+
+    return inputArray
+
+
 if __name__ == "__main__":
     print("Qual algoritmo de ordenacao você deseja usar?")
     print("1 - Counting Sort")
