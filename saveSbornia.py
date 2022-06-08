@@ -118,6 +118,7 @@ if __name__ == "__main__":
     print("Qual algoritmo de ordenacao você deseja usar?")
     print("1 - Counting Sort")
     print("2 - Selection Sort")
+    print("3 - Counting Sort Stable")
     option = input()
 
     logs_to_order = get_logs_of_month()
