@@ -1,5 +1,7 @@
 import json
 import time
+from functools import reduce
+
 
 cont = 0
 def get_full_data():
@@ -103,11 +105,28 @@ def countingSort(inputArray, maxElement):
     return inputArray
 
 
+def radixSort(A):
+    m = 0
+    for item in A:
+        m = max(m, item.get('log'))
+    num_digits = len(str(m))
+
+    for digit in range(0, num_digits):
+        B = [[] for i in range(10)]
+        for item in A:
+            # num is the bucket number that the item will be put into
+            num = item.get('log') // 10 ** (digit) % 10
+            B[num].append(item.get('log'))
+        A = reduce(lambda x, y: x + y, B)
+    return A
+
+
 if __name__ == "__main__":
     print("Qual algoritmo de ordenacao você deseja usar?")
     print("1 - Counting Sort")
     print("2 - Selection Sort")
     print("3 - Counting Sort Stable")
+    print("4 - Radix Sort in dev")
     option = input()
 
     logs_to_order = get_logs_of_month()
@@ -125,6 +144,11 @@ if __name__ == "__main__":
     elif option == "3":
         start = time.time()
         orderedLogs = selectonSort(logs_to_order, len(logs_to_order))
+        end = time.time()
+        print("Tempo de execução: " + str(end - start))
+    elif option == "3":
+        start = time.time()
+        orderedLogs = radixSort(logs_to_order)
         end = time.time()
         print("Tempo de execução: " + str(end - start))
     else:
