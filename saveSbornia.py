@@ -159,6 +159,75 @@ def insertionSort(A, n):
 
     return is_array
 
+def mergeSort(A):
+
+    ms_array = A
+    aux = [0] * len(A)
+    
+    def _merge(ms_array, aux, left, middle, right):
+        for k in range(left, right + 1):
+            aux[k] = ms_array[k]
+        i = left
+        j = middle + 1
+
+        for k in range(left, right + 1):
+            if i > middle:
+                ms_array[k] = aux[j]
+                j += 1
+            elif j > right:
+                ms_array[k] = aux[i]
+                i += 1
+            elif aux[j].get("log") < aux[i].get("log"):
+                ms_array[k] = aux[j]
+                j += 1
+            else:
+                ms_array[k] = aux[i]
+                i += 1
+
+    def _mergeSort(ms_array, aux, left, right):
+        if right <= left:
+            return
+        middle = (left + right) // 2
+
+        _mergeSort(ms_array, aux, left, middle)
+        _mergeSort(ms_array, aux, middle + 1, right)
+        _merge(ms_array, aux, left, middle, right)
+
+    _mergeSort(ms_array, aux, 0, len(A) - 1)
+    return ms_array
+
+def heapSort(A):
+    hs_array = A
+    n = len(hs_array)
+
+    def _heapify(hs_array, n, i):
+        largest = i
+        left = 2 * i + 1
+        right = 2 * i + 2
+
+        if left < n and hs_array[i].get('log') < hs_array[left].get('log'):
+            largest = left
+
+        if right < n and hs_array[largest].get('log') < hs_array[right].get('log'):
+            largest = right
+        
+        if largest != i:
+            aux = hs_array[i]
+            hs_array[i] = hs_array[largest]
+            hs_array[largest] = aux
+            _heapify(hs_array, n, largest)
+
+    for i in range( n // 2 - 1, -1, -1):
+        _heapify(hs_array, n, i)
+
+    for i in range(n - 1, 0, -1):
+        aux = hs_array[i]
+        hs_array[i] = hs_array[0]
+        hs_array[0] = aux
+        _heapify(hs_array, i, 0)
+    
+    return hs_array
+
 def bubbleSort(A, n):
     change = True
 
@@ -180,6 +249,8 @@ if __name__ == "__main__":
     print("5 - Quick Sort")
     print("6 - Insertion Sort")
     print("7 - Bubble Sort (Iterative)")
+    print("8 - Merge Sort")
+    print("9 - Heap Sort")
     option = input()
 
     logs_to_order = get_logs_of_month()
@@ -242,7 +313,27 @@ if __name__ == "__main__":
 
     elif option == "7":
         start = time.time()
-        orderedLogs = bubbleSort(logs_to_order, len(log_to_order))
+        orderedLogs = bubbleSort(logs_to_order, len(logs_to_order))
+        end = time.time()
+        print("Tempo de execução: " + str(end - start))
+
+        index_guilted = (1000001 - (cont - len(orderedLogs)))
+        log_guilted = orderedLogs[index_guilted]
+        print('Culpado: ', log_guilted.get('user'))
+
+    elif option == "8":
+        start = time.time()
+        orderedLogs = mergeSort(logs_to_order)
+        end = time.time()
+        print("Tempo de execução: " + str(end - start))
+
+        index_guilted = (1000001 - (cont - len(orderedLogs)))
+        log_guilted = orderedLogs[index_guilted]
+        print('Culpado: ', log_guilted.get('user'))
+
+    elif option == "9":
+        start = time.time()
+        orderedLogs = heapSort(logs_to_order)
         end = time.time()
         print("Tempo de execução: " + str(end - start))
 
