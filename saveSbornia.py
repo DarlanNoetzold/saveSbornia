@@ -120,6 +120,34 @@ def radixSort(A):
         A = reduce(lambda x, y: x + y, B)
     return A
 
+def quickSort(A, start, end):
+    qs_array = A
+
+    def _partitionate(qs_array, p, r):
+        pivot = qs_array[r]
+        i = p - 1
+        for j in range(p, r):
+            if qs_array[j].get('log') <= pivot.get('log'):
+                i = 1 + i
+                aux = qs_array[i]
+                qs_array[i] = qs_array[j]
+                qs_array[j] = aux
+        i = i + 1
+        aux = qs_array[i]
+        qs_array[i] = qs_array[r]
+        qs_array[r] = aux
+        return i
+
+    def _quickSort(qs_array, start, end):
+        if start <= end:
+            partition = _partitionate(qs_array, start, end)
+            _quickSort(qs_array, start, partition - 1)
+            _quickSort(qs_array, partition + 1, end)
+    
+    _quickSort(qs_array, start, end)
+    return qs_array
+    
+
 
 if __name__ == "__main__":
     print("Qual algoritmo de ordenacao você deseja usar?")
@@ -127,6 +155,7 @@ if __name__ == "__main__":
     print("2 - Selection Sort")
     print("3 - Counting Sort Stable")
     print("4 - Radix Sort in dev")
+    print("5 - Quick Sort")
     option = input()
 
     logs_to_order = get_logs_of_month()
@@ -136,31 +165,46 @@ if __name__ == "__main__":
         orderedLogs = countingSort(logs_to_order, get_biggest_value(logs_to_order))
         end = time.time()
         print("Tempo de execução: " + str(end - start))
+
+        index_guilted = (1000001 - (cont - len(orderedLogs)))
+        log_guilted = orderedLogs[index_guilted]
+        for i in get_logs_of_month():
+            if i.get('log') == log_guilted:
+                print('Culpado: ', i.get('user'))
+                
     elif option == "2":
         start = time.time()
         orderedLogs = selectonSort(logs_to_order, len(logs_to_order))
         end = time.time()
         print("Tempo de execução: " + str(end - start))
+
     elif option == "3":
-        start = time.time()
-        orderedLogs = selectonSort(logs_to_order, len(logs_to_order))
-        end = time.time()
-        print("Tempo de execução: " + str(end - start))
-    elif option == "3":
-        start = time.time()
-        orderedLogs = radixSort(logs_to_order)
-        end = time.time()
-        print("Tempo de execução: " + str(end - start))
-    else:
         start = time.time()
         orderedLogs = countingSortStable(logs_to_order, get_biggest_value(logs_to_order))
         end = time.time()
         print("Tempo de execução: " + str(end - start))
 
-    index_guilted = (1000001 - (cont - len(orderedLogs)))
+        index_guilted = (1000001 - (cont - len(orderedLogs)))
+        log_guilted = orderedLogs[index_guilted]
+        for i in get_logs_of_month():
+            if i.get('log') == log_guilted:
+                print('Culpado: ', i.get('user'))
 
-    log_guilted = orderedLogs[index_guilted]
+    elif option == "4":
+        start = time.time()
+        orderedLogs = radixSort(logs_to_order)
+        end = time.time()
+        print("Tempo de execução: " + str(end - start))
 
-    for i in get_logs_of_month():
-        if i.get('log') == log_guilted:
-            print(i.get('user'))
+    elif option == "5":
+        start = time.time()
+        orderedLogs = quickSort(logs_to_order, 0, len(logs_to_order) - 1)
+        end = time.time()
+        print("Tempo de execução: " + str(end - start))
+
+        index_guilted = (1000001 - (cont - len(orderedLogs)))
+        log_guilted = orderedLogs[index_guilted]
+        print('Culpado: ', log_guilted.get('user'))
+
+    else:
+        print('Opção inválida!')
