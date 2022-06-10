@@ -159,6 +159,18 @@ def insertionSort(A, n):
 
     return is_array
 
+def bubbleSort(A, n):
+    change = True
+
+    while(change == True):
+        change = False
+        for i in range(0, n - 1):
+            if A[i].get('log') > A[i + 1].get('log'):
+                aux = A[i]
+                A[i] = A[i + 1]
+                A[i + 1] = aux
+                change = True
+
 if __name__ == "__main__":
     print("Qual algoritmo de ordenacao você deseja usar?")
     print("1 - Counting Sort")
@@ -167,6 +179,7 @@ if __name__ == "__main__":
     print("4 - Radix Sort in dev")
     print("5 - Quick Sort")
     print("6 - Insertion Sort")
+    print("7 - Bubble Sort (Iterative)")
     option = input()
 
     logs_to_order = get_logs_of_month()
@@ -222,6 +235,20 @@ if __name__ == "__main__":
         orderedLogs = insertionSort(logs_to_order, len(logs_to_order))
         end = time.time()
         print("Tempo de execução: " + str(end - start))
+
+        index_guilted = (1000001 - (cont - len(orderedLogs)))
+        log_guilted = orderedLogs[index_guilted]
+        print('Culpado: ', log_guilted.get('user'))
+
+    elif option == "7":
+        start = time.time()
+        orderedLogs = bubbleSort(logs_to_order, len(log_to_order))
+        end = time.time()
+        print("Tempo de execução: " + str(end - start))
+
+        index_guilted = (1000001 - (cont - len(orderedLogs)))
+        log_guilted = orderedLogs[index_guilted]
+        print('Culpado: ', log_guilted.get('user'))
 
     else:
         print('Opção inválida!')
