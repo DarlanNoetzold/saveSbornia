@@ -104,7 +104,6 @@ def countingSort(inputArray, maxElement):
 
     return inputArray
 
-
 def radixSort(A):
     m = 0
     for item in A:
@@ -147,7 +146,18 @@ def quickSort(A, start, end):
     _quickSort(qs_array, start, end)
     return qs_array
     
+def insertionSort(A, n):
+    is_array = A
 
+    for i in range(1, n):
+        key = is_array[i]
+        j = i - 1
+        while j > -1 and is_array[j].get('log') > key.get('log'):
+            is_array[j + 1] = is_array[j]
+            j = j -1
+        is_array[j + 1] = key
+
+    return is_array
 
 if __name__ == "__main__":
     print("Qual algoritmo de ordenacao você deseja usar?")
@@ -156,6 +166,7 @@ if __name__ == "__main__":
     print("3 - Counting Sort Stable")
     print("4 - Radix Sort in dev")
     print("5 - Quick Sort")
+    print("6 - Insertion Sort")
     option = input()
 
     logs_to_order = get_logs_of_month()
@@ -205,6 +216,12 @@ if __name__ == "__main__":
         index_guilted = (1000001 - (cont - len(orderedLogs)))
         log_guilted = orderedLogs[index_guilted]
         print('Culpado: ', log_guilted.get('user'))
+
+    elif option == "6":
+        start = time.time()
+        orderedLogs = insertionSort(logs_to_order, len(logs_to_order))
+        end = time.time()
+        print("Tempo de execução: " + str(end - start))
 
     else:
         print('Opção inválida!')
