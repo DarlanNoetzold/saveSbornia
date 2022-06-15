@@ -104,10 +104,7 @@ def countingSort(inputArray, maxElement):
 
     return inputArray
 
-def radixSort(A):
-    m = 0
-    for item in A:
-        m = max(m, item.get('log'))
+def radixSort(A, m):
     num_digits = len(str(m))
 
     for digit in range(0, num_digits):
@@ -292,7 +289,7 @@ if __name__ == "__main__":
         elif option == "3":
             print("Ordenando os logs. Tempo estimado: 1s")
             start = time.time()
-            orderedLogs = radixSort(logs_to_order)
+            orderedLogs = radixSort(logs_to_order, get_biggest_value(logs_to_order))
             end = time.time()
             print("Logs ordenados. Tempo de execução: " + str(end - start))
             print("Encontrando o(s) impostor(es)...")
