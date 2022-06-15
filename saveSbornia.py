@@ -1,9 +1,6 @@
 import json
 import time
-from functools import reduce
-
-
-cont = 0
+AUX=0
 def get_full_data():
     with open('logNaveSbornia.txt', 'rb') as meu_json:
         return json.loads(meu_json.read())
@@ -40,12 +37,14 @@ def get_logs_of_month():
             vetor[10].append(infos)
         elif i['month'] == 'December':
             vetor[11].append(infos)
-    global cont
+    cont=0
     mes_atual=0
     for i in vetor:
         cont += len(i)
         print(str(cont) + ' - '+str(mes_atual))
-        if(cont > 1000001):
+        if(cont > 1000000):
+            global AUX
+            AUX = cont
             return vetor[mes_atual]
         mes_atual+=1
 
@@ -69,19 +68,23 @@ def selectionSort(inputArray, n):
     return inputArray
 
 def countingSortStable(inputArray, maxElement):
+    inputLogs = []
+    for i in inputArray:
+        inputLogs.append(i.get('log'))
+
     countArrayLength = maxElement+1
     countArray = [0] * countArrayLength
 
-    for el in inputArray:
-        countArray[el.get('log')] += 1
+    for el in inputLogs:
+        countArray[el] += 1
 
     for i in range(1, countArrayLength):
         countArray[i] += countArray[i-1]
 
-    outputArray = [0] * len(inputArray)
-    i = len(inputArray) - 1
+    outputArray = [0] * len(inputLogs)
+    i = len(inputLogs) - 1
     while i >= 0:
-        currentEl = inputArray[i].get('log')
+        currentEl = inputLogs[i]
         countArray[currentEl] -= 1
         newPosition = countArray[currentEl]
         outputArray[newPosition] = currentEl
@@ -99,27 +102,10 @@ def countingSort(inputArray, maxElement):
     inputArray = []
     for i in countArray:
         while i >= 1:
-            inputArray.append(i);
+            inputArray.append(i)
             i -= 1
 
     return inputArray
-
-def radixSort(A):
-    m = 0
-    for item in A:
-        m = max(m, item.get('log'))
-    num_digits = len(str(m))
-
-    for digit in range(0, num_digits):
-        B = [[] for i in range(10)]
-        for item in A:
-            num = {
-                'user': item.get('user'),
-                'log': item.get('log') // 10 ** (digit) % 10
-            }
-            B[num.get('log')].append(item)
-        A = reduce(lambda x, y: x + y, B)
-    return A
 
 def quickSort(A, start, end):
     qs_array = A
@@ -252,7 +238,6 @@ if __name__ == "__main__":
         print("--- Não usam comparação ---")
         print("1 - Counting Sort (Stable)")
         print("2 - Counting Sort")
-        print("3 - Radix Sort in dev")
         print("--- Usam comparação ---")
         print("4 - Quick Sort")
         print("5 - Merge Sort")
@@ -269,9 +254,9 @@ if __name__ == "__main__":
             print("Logs ordenados. Tempo de execução: " + str(end - start))
             print("Encontrando o(s) impostor(es)...")
 
-            index_guilted = (1000001 - (cont - len(orderedLogs)))
+            index_guilted = (1000000 - (AUX - len(orderedLogs)))
             log_guilted = orderedLogs[index_guilted]
-            for i in get_logs_of_month():
+            for i in logs_to_order:
                 if i.get('log') == log_guilted:
                     print('Impostor encontrado: ', i.get('user'))
 
@@ -283,23 +268,11 @@ if __name__ == "__main__":
             print("Logs ordenados. Tempo de execução: " + str(end - start))
             print("Encontrando o(s) impostor(es)...")
 
-            index_guilted = (1000001 - (cont - len(orderedLogs)))
+            index_guilted = (1000000 - (AUX - len(orderedLogs)))
             log_guilted = orderedLogs[index_guilted]
-            for i in get_logs_of_month():
+            for i in logs_to_order:
                 if i.get('log') == log_guilted:
                     print('Impostor encontrado: ', i.get('user'))
-
-        elif option == "3":
-            print("Ordenando os logs. Tempo estimado: 1s")
-            start = time.time()
-            orderedLogs = radixSort(logs_to_order)
-            end = time.time()
-            print("Logs ordenados. Tempo de execução: " + str(end - start))
-            print("Encontrando o(s) impostor(es)...")
-
-            index_guilted = (1000001 - (cont - len(orderedLogs)))
-            log_guilted = orderedLogs[index_guilted]
-            print('Impostor encontrado: ', log_guilted.get('user'))
 
         elif option == "4":
             print("Ordenando os logs. Tempo estimado: 1.60s")
@@ -309,7 +282,7 @@ if __name__ == "__main__":
             print("Logs ordenados. Tempo de execução: " + str(end - start))
             print("Encontrando o(s) impostor(es)...")
 
-            index_guilted = (1000001 - (cont - len(orderedLogs)))
+            index_guilted = (1000000 - (AUX - len(orderedLogs)))
             log_guilted = orderedLogs[index_guilted]
             print('Impostor encontrado: ', log_guilted.get('user'))
 
@@ -320,8 +293,7 @@ if __name__ == "__main__":
             end = time.time()
             print("Logs ordenados. Tempo de execução: " + str(end - start))
             print("Encontrando o(s) impostor(es)...")
-
-            index_guilted = (1000001 - (cont - len(orderedLogs)))
+            index_guilted = (1000000 - (AUX - len(orderedLogs)))
             log_guilted = orderedLogs[index_guilted]
             print('Impostor encontrado: ', log_guilted.get('user'))
 
@@ -333,7 +305,7 @@ if __name__ == "__main__":
             print("Logs ordenados. Tempo de execução: " + str(end - start))
             print("Encontrando o(s) impostor(es)...")
 
-            index_guilted = (1000001 - (cont - len(orderedLogs)))
+            index_guilted = (1000000 - (AUX - len(orderedLogs)))
             log_guilted = orderedLogs[index_guilted]
             print('Impostor encontrado: ', log_guilted.get('user'))
 
@@ -345,7 +317,7 @@ if __name__ == "__main__":
             print("Logs ordenados. Tempo de execução: " + str(end - start))
             print("Encontrando o(s) impostor(es)...")
 
-            index_guilted = (1000001 - (cont - len(orderedLogs)))
+            index_guilted = (1000000 - (AUX - len(orderedLogs)))
             log_guilted = orderedLogs[index_guilted]
             print('Impostor encontrado: ', log_guilted.get('user'))
 
@@ -357,7 +329,7 @@ if __name__ == "__main__":
             print("Logs ordenados. Tempo de execução: " + str(end - start))
             print("Encontrando o(s) impostor(es)...")
 
-            index_guilted = (1000001 - (cont - len(orderedLogs)))
+            index_guilted = (1000000 - (AUX - len(orderedLogs)))
             log_guilted = orderedLogs[index_guilted]
             print('Impostor encontrado: ', log_guilted.get('user'))
 
@@ -369,7 +341,7 @@ if __name__ == "__main__":
             print("Logs ordenados. Tempo de execução: " + str(end - start))
             print("Encontrando o(s) impostor(es)...")
 
-            index_guilted = (1000001 - (cont - len(orderedLogs)))
+            index_guilted = (1000000 - (AUX - len(orderedLogs)))
             log_guilted = orderedLogs[index_guilted]
             print('Impostor encontrado: ', log_guilted.get('user'))
         else:
