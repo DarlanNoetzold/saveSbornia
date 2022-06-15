@@ -107,6 +107,7 @@ def countingSort(inputArray, maxElement):
 
     return inputArray
 
+
 def quickSort(A, start, end):
     qs_array = A
 
