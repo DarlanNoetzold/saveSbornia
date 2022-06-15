@@ -67,6 +67,58 @@ def selectionSort(inputArray, n):
         inputArray[less]=aux
     return inputArray
 
+def radixSort(inputArray):
+    def _countingSortForRadix(inputLogsCount, placeValue):
+
+        countArray = [0] * 10
+        inputSize = len(inputLogsCount)
+        for i in range(inputSize):
+            placeElement = (inputLogsCount[i] // placeValue) % 10
+            countArray[placeElement] += 1
+
+        for i in range(1, 10):
+            countArray[i] += countArray[i - 1]
+
+        outputArray = [0] * inputSize
+        i = inputSize - 1
+        while i >= 0:
+            currentEl = inputLogsCount[i]
+            placeElement = (inputLogsCount[i] // placeValue) % 10
+            countArray[placeElement] -= 1
+            newPosition = countArray[placeElement]
+            outputArray[newPosition] = currentEl
+            i -= 1
+
+        return outputArray
+
+    def _radixSort(inputLogs):
+        # Step 1 -> Find the maximum element in the input array
+        maxEl = max(inputLogs)
+
+        # Step 2 -> Find the number of digits in the `max` element
+        D = 1
+        while maxEl > 0:
+            maxEl /= 10
+            D += 1
+
+        # Step 3 -> Initialize the place value to the least significant place
+        placeVal = 1
+
+        # Step 4
+        outputArray = inputLogs
+        while D > 0:
+            outputArray = _countingSortForRadix(outputArray, placeVal)
+            placeVal *= 10
+            D -= 1
+
+        return outputArray
+
+    inputLogs = []
+    for i in inputArray:
+        inputLogs.append(i.get('log'))
+    return _radixSort(inputLogs)
+
+
 def countingSortStable(inputArray, maxElement):
     inputLogs = []
     for i in inputArray:
@@ -239,6 +291,7 @@ if __name__ == "__main__":
         print("--- Não usam comparação ---")
         print("1 - Counting Sort (Stable)")
         print("2 - Counting Sort")
+        print("3 - Radix Sort")
         print("--- Usam comparação ---")
         print("4 - Quick Sort")
         print("5 - Merge Sort")
@@ -265,6 +318,19 @@ if __name__ == "__main__":
             print("Ordenando os logs. Tempo estimado: 0.15s")
             start = time.time()
             orderedLogs = countingSort(logs_to_order, get_biggest_value(logs_to_order))
+            end = time.time()
+            print("Logs ordenados. Tempo de execução: " + str(end - start))
+            print("Encontrando o(s) impostor(es)...")
+
+            index_guilted = (1000000 - (AUX - len(orderedLogs)))
+            log_guilted = orderedLogs[index_guilted]
+            for i in logs_to_order:
+                if i.get('log') == log_guilted:
+                    print('Impostor encontrado: ', i.get('user'))
+        elif option == "3":
+            print("Ordenando os logs. Tempo estimado: 0.15s")
+            start = time.time()
+            orderedLogs = radixSort(logs_to_order)
             end = time.time()
             print("Logs ordenados. Tempo de execução: " + str(end - start))
             print("Encontrando o(s) impostor(es)...")
