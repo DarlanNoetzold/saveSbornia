@@ -285,134 +285,135 @@ if __name__ == "__main__":
     print("Lendo os logs da nave...")
     logs_to_order = get_logs_of_month()
     print("Leitura finalizada.")
-    option=""
-    while(option != 'sair'):
-        print("Qual algoritmo de ordenação você deseja usar?")
-        print("--- Não usam comparação ---")
-        print("1 - Counting Sort (Stable)")
-        print("2 - Counting Sort")
-        print("3 - Radix Sort")
-        print("--- Usam comparação ---")
-        print("4 - Quick Sort")
-        print("5 - Merge Sort")
-        print("6 - Heap Sort")
-        print("7 - Insertion Sort")
-        print("8 - Selection Sort")
-        print("9 - Bubble Sort (Iterative)")
-        option = input()
-        if option == "1":
-            print("Ordenando os logs. Tempo estimado: 0.25s")
-            start = time.time()
-            orderedLogs = countingSortStable(logs_to_order, get_biggest_value(logs_to_order))
-            end = time.time()
-            print("Logs ordenados. Tempo de execução: " + str(end - start))
-            print("Encontrando o(s) impostor(es)...")
+    print("Qual algoritmo de ordenação você deseja usar?")
+    print("--- Não usam comparação ---")
+    print("1 - Counting Sort (Stable)")
+    print("2 - Counting Sort")
+    print("3 - Radix Sort")
+    print("--- Usam comparação ---")
+    print("4 - Quick Sort")
+    print("5 - Merge Sort")
+    print("6 - Heap Sort")
+    print("7 - Insertion Sort")
+    print("8 - Selection Sort")
+    print("9 - Bubble Sort (Iterative)")
+    option = input()
+    if option == "1":
+        print("Ordenando os logs. Tempo estimado: 0.25s")
+        start = time.time()
+        orderedLogs = countingSortStable(logs_to_order, get_biggest_value(logs_to_order))
+        end = time.time()
+        print("Logs ordenados. Tempo de execução: " + str(end - start))
+        print("Encontrando o(s) impostor(es)...")
 
-            index_guilted = (1000000 - (AUX - len(orderedLogs)))
-            log_guilted = orderedLogs[index_guilted]
-            for i in logs_to_order:
-                if i.get('log') == log_guilted:
-                    print('Impostor encontrado: ', i.get('user'))
+        index_guilted = (1000000 - (AUX - len(orderedLogs)))
+        log_guilted = orderedLogs[index_guilted]
+        vet_aux = []
+        for i in logs_to_order:
+            if i.get('log') == log_guilted:
+                vet_aux.append(i)
 
-        elif option == "2":
-            print("Ordenando os logs. Tempo estimado: 0.15s")
-            start = time.time()
-            orderedLogs = countingSort(logs_to_order, get_biggest_value(logs_to_order))
-            end = time.time()
-            print("Logs ordenados. Tempo de execução: " + str(end - start))
-            print("Encontrando o(s) impostor(es)...")
+        print("O impost é " + vet_aux.pop().get('user'))
 
-            index_guilted = (1000000 - (AUX - len(orderedLogs)))
-            log_guilted = orderedLogs[index_guilted]
-            for i in logs_to_order:
-                if i.get('log') == log_guilted:
-                    print('Impostor encontrado: ', i.get('user'))
-        elif option == "3":
-            print("Ordenando os logs. Tempo estimado: 0.15s")
-            start = time.time()
-            orderedLogs = radixSort(logs_to_order)
-            end = time.time()
-            print("Logs ordenados. Tempo de execução: " + str(end - start))
-            print("Encontrando o(s) impostor(es)...")
+    elif option == "2":
+        print("Ordenando os logs. Tempo estimado: 0.15s")
+        start = time.time()
+        orderedLogs = countingSort(logs_to_order, get_biggest_value(logs_to_order))
+        end = time.time()
+        print("Logs ordenados. Tempo de execução: " + str(end - start))
+        print("Encontrando o(s) impostor(es)...")
 
-            index_guilted = (1000000 - (AUX - len(orderedLogs)))
-            log_guilted = orderedLogs[index_guilted]
-            for i in logs_to_order:
-                if i.get('log') == log_guilted:
-                    print('Impostor encontrado: ', i.get('user'))
+        index_guilted = (1000000 - (AUX - len(orderedLogs)))
+        log_guilted = orderedLogs[index_guilted]
+        for i in logs_to_order:
+            if i.get('log') == log_guilted:
+                print('Impostor encontrado: ', i.get('user'))
+    elif option == "3":
+        print("Ordenando os logs. Tempo estimado: 0.15s")
+        start = time.time()
+        orderedLogs = radixSort(logs_to_order)
+        end = time.time()
+        print("Logs ordenados. Tempo de execução: " + str(end - start))
+        print("Encontrando o(s) impostor(es)...")
 
-        elif option == "4":
-            print("Ordenando os logs. Tempo estimado: 1.60s")
-            start = time.time()
-            orderedLogs = quickSort(logs_to_order, 0, len(logs_to_order) - 1)
-            end = time.time()
-            print("Logs ordenados. Tempo de execução: " + str(end - start))
-            print("Encontrando o(s) impostor(es)...")
+        index_guilted = (1000000 - (AUX - len(orderedLogs)))
+        log_guilted = orderedLogs[index_guilted]
+        for i in logs_to_order:
+            if i.get('log') == log_guilted:
+                print('Impostor encontrado: ', i.get('user'))
 
-            index_guilted = (1000000 - (AUX - len(orderedLogs)))
-            log_guilted = orderedLogs[index_guilted]
-            print('Impostor encontrado: ', log_guilted.get('user'))
+    elif option == "4":
+        print("Ordenando os logs. Tempo estimado: 1.60s")
+        start = time.time()
+        orderedLogs = quickSort(logs_to_order, 0, len(logs_to_order) - 1)
+        end = time.time()
+        print("Logs ordenados. Tempo de execução: " + str(end - start))
+        print("Encontrando o(s) impostor(es)...")
 
-        elif option == "5":
-            print("Ordenando os logs. Tempo estimado: 1.60s")
-            start = time.time()
-            orderedLogs = mergeSort(logs_to_order)
-            end = time.time()
-            print("Logs ordenados. Tempo de execução: " + str(end - start))
-            print("Encontrando o(s) impostor(es)...")
-            index_guilted = (1000000 - (AUX - len(orderedLogs)))
-            log_guilted = orderedLogs[index_guilted]
-            print('Impostor encontrado: ', log_guilted.get('user'))
+        index_guilted = (1000000 - (AUX - len(orderedLogs)))
+        log_guilted = orderedLogs[index_guilted]
+        print('Impostor encontrado: ', log_guilted.get('user'))
 
-        elif option == "6":
-            print("Ordenando os logs. Tempo estimado: 3.60s")
-            start = time.time()
-            orderedLogs = heapSort(logs_to_order)
-            end = time.time()
-            print("Logs ordenados. Tempo de execução: " + str(end - start))
-            print("Encontrando o(s) impostor(es)...")
+    elif option == "5":
+        print("Ordenando os logs. Tempo estimado: 1.60s")
+        start = time.time()
+        orderedLogs = mergeSort(logs_to_order)
+        end = time.time()
+        print("Logs ordenados. Tempo de execução: " + str(end - start))
+        print("Encontrando o(s) impostor(es)...")
+        index_guilted = (1000000 - (AUX - len(orderedLogs)))
+        log_guilted = orderedLogs[index_guilted]
+        print('Impostor encontrado: ', log_guilted.get('user'))
 
-            index_guilted = (1000000 - (AUX - len(orderedLogs)))
-            log_guilted = orderedLogs[index_guilted]
-            print('Impostor encontrado: ', log_guilted.get('user'))
+    elif option == "6":
+        print("Ordenando os logs. Tempo estimado: 3.60s")
+        start = time.time()
+        orderedLogs = heapSort(logs_to_order)
+        end = time.time()
+        print("Logs ordenados. Tempo de execução: " + str(end - start))
+        print("Encontrando o(s) impostor(es)...")
 
-        elif option == "7":
-            print("Ordenando os logs. Tempo estimado: 4h")
-            start = time.time()
-            orderedLogs = insertionSort(logs_to_order, len(logs_to_order))
-            end = time.time()
-            print("Logs ordenados. Tempo de execução: " + str(end - start))
-            print("Encontrando o(s) impostor(es)...")
+        index_guilted = (1000000 - (AUX - len(orderedLogs)))
+        log_guilted = orderedLogs[index_guilted]
+        print('Impostor encontrado: ', log_guilted.get('user'))
 
-            index_guilted = (1000000 - (AUX - len(orderedLogs)))
-            log_guilted = orderedLogs[index_guilted]
-            print('Impostor encontrado: ', log_guilted.get('user'))
+    elif option == "7":
+        print("Ordenando os logs. Tempo estimado: 4h")
+        start = time.time()
+        orderedLogs = insertionSort(logs_to_order, len(logs_to_order))
+        end = time.time()
+        print("Logs ordenados. Tempo de execução: " + str(end - start))
+        print("Encontrando o(s) impostor(es)...")
 
-        elif option == "8":
-            print("Ordenando os logs. Tempo estimado: 4h")
-            start = time.time()
-            orderedLogs = selectionSort(logs_to_order, len(logs_to_order))
-            end = time.time()
-            print("Logs ordenados. Tempo de execução: " + str(end - start))
-            print("Encontrando o(s) impostor(es)...")
+        index_guilted = (1000000 - (AUX - len(orderedLogs)))
+        log_guilted = orderedLogs[index_guilted]
+        print('Impostor encontrado: ', log_guilted.get('user'))
 
-            index_guilted = (1000000 - (AUX - len(orderedLogs)))
-            log_guilted = orderedLogs[index_guilted]
-            print('Impostor encontrado: ', log_guilted.get('user'))
+    elif option == "8":
+        print("Ordenando os logs. Tempo estimado: 4h")
+        start = time.time()
+        orderedLogs = selectionSort(logs_to_order, len(logs_to_order))
+        end = time.time()
+        print("Logs ordenados. Tempo de execução: " + str(end - start))
+        print("Encontrando o(s) impostor(es)...")
 
-        elif option == "9":
-            print("Ordenando os logs. Tempo estimado: 23h")
-            start = time.time()
-            orderedLogs = bubbleSort(logs_to_order, len(logs_to_order))
-            end = time.time()
-            print("Logs ordenados. Tempo de execução: " + str(end - start))
-            print("Encontrando o(s) impostor(es)...")
+        index_guilted = (1000000 - (AUX - len(orderedLogs)))
+        log_guilted = orderedLogs[index_guilted]
+        print('Impostor encontrado: ', log_guilted.get('user'))
 
-            index_guilted = (1000000 - (AUX - len(orderedLogs)))
-            log_guilted = orderedLogs[index_guilted]
-            print('Impostor encontrado: ', log_guilted.get('user'))
-        else:
-            print('Opção inválida!')
+    elif option == "9":
+        print("Ordenando os logs. Tempo estimado: 23h")
+        start = time.time()
+        orderedLogs = bubbleSort(logs_to_order, len(logs_to_order))
+        end = time.time()
+        print("Logs ordenados. Tempo de execução: " + str(end - start))
+        print("Encontrando o(s) impostor(es)...")
+
+        index_guilted = (1000000 - (AUX - len(orderedLogs)))
+        log_guilted = orderedLogs[index_guilted]
+        print('Impostor encontrado: ', log_guilted.get('user'))
+    else:
+        print('Opção inválida!')
 
 
     print("Adeus cidadão sborniano! Que a paz o acompanhe.")
