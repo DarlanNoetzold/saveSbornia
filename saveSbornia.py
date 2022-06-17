@@ -41,7 +41,6 @@ def get_logs_of_month():
     mes_atual=0
     for i in vetor:
         cont += len(i)
-        print(str(cont) + ' - '+str(mes_atual))
         if(cont > 1000000):
             global AUX
             AUX = cont
@@ -282,6 +281,7 @@ def bubbleSort(A, n):
                 change = True
 
 if __name__ == "__main__":
+    vet_aux = []
     print("Lendo os logs da nave...")
     logs_to_order = get_logs_of_month()
     print("Leitura finalizada.")
@@ -308,12 +308,11 @@ if __name__ == "__main__":
 
         index_guilted = (1000000 - (AUX - len(orderedLogs)))
         log_guilted = orderedLogs[index_guilted]
-        vet_aux = []
         for i in logs_to_order:
             if i.get('log') == log_guilted:
                 vet_aux.append(i)
 
-        print("O impost é " + vet_aux.pop().get('user'))
+        print("O impostor é " + vet_aux.pop().get('user'))
 
     elif option == "2":
         print("Ordenando os logs. Tempo estimado: 0.15s")
@@ -340,7 +339,9 @@ if __name__ == "__main__":
         log_guilted = orderedLogs[index_guilted]
         for i in logs_to_order:
             if i.get('log') == log_guilted:
-                print('Impostor encontrado: ', i.get('user'))
+                vet_aux.append(i)
+
+        print("O impostor é " + vet_aux.pop().get('user'))
 
     elif option == "4":
         print("Ordenando os logs. Tempo estimado: 1.60s")
