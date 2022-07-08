@@ -5,6 +5,16 @@ def get_full_data():
     with open('logNaveSbornia.txt', 'rb') as meu_json:
         return json.loads(meu_json.read())
 
+def get_all_data():
+    vet = []
+    for i in get_full_data():
+        infos = {
+            'user': i['user'],
+            'log': i['log']
+        }
+        vet.append(infos)
+    return vet
+
 def get_logs_of_month():
     vetor = [[], [], [], [], [], [], [], [], [], [], [], []]
     for i in get_full_data():
@@ -236,6 +246,43 @@ def mergeSort(A):
     _mergeSort(ms_array, aux, 0, len(A) - 1)
     return ms_array
 
+def interpolation_search(array, x):
+    low = 0
+    high = len(array) - 1
+
+    array_low = array[low]
+    array_high = array[high]
+
+    while ((low <= high) and (x >= array_low) and (x <= array_high)):
+        array_low = array[low]
+        array_high = array[high]
+        pos = (int)(low + ((high - low)/(array_high - array_low))*(x - array_low))
+
+        if array[pos] < x:
+            low = pos+1
+
+        elif array[pos] > x:
+            high = pos-1
+
+        else:
+            return pos
+
+    return -1
+
+def buscaBinaria(valor, vetor, esquerda, direita):
+    meio = int((esquerda + direita) / 2)
+
+    if esquerda <= direita:
+        if valor > vetor[meio]:
+            esquerda = meio + 1
+            return buscaBinaria(valor, vetor, esquerda, direita)
+        elif valor < vetor[meio]:
+            direita = meio - 1
+            return buscaBinaria(valor, vetor, esquerda, direita)
+        return meio
+    return -1
+
+
 def heapSort(A):
     hs_array = A
     n = len(hs_array)
@@ -297,6 +344,9 @@ if __name__ == "__main__":
     print("7 - Insertion Sort")
     print("8 - Selection Sort")
     print("9 - Bubble Sort (Iterative)")
+    print("--- Buscas ---")
+    print("10 - Busca Binária")
+    print("11 - Busca por Intepolação")
     option = input()
     if option == "1":
         print("Ordenando os logs. Tempo estimado: 0.25s")
@@ -413,6 +463,30 @@ if __name__ == "__main__":
         index_guilted = (1000000 - (AUX - len(orderedLogs)))
         log_guilted = orderedLogs[index_guilted]
         print('Impostor encontrado: ', log_guilted.get('user'))
+    elif option == "10":
+        print("Ordenando os logs.")
+        start = time.time()
+        orderedLogs = countingSortStable(get_all_data(), len(logs_to_order))
+        end = time.time()
+        print("Logs ordenados. Tempo de execução: " + str(end - start))
+        print("Digite o número do log de busca: ")
+        x = int(input())
+
+        print("A posicao encontrada foi: ")
+        print(buscaBinaria(x, orderedLogs, orderedLogs[0], orderedLogs[len(orderedLogs) - 1]))
+
+    elif option == "11":
+        print("Ordenando os logs.")
+        start = time.time()
+        orderedLogs = countingSortStable(get_all_data(), len(logs_to_order))
+        end = time.time()
+        print("Logs ordenados. Tempo de execução: " + str(end - start))
+        print("Digite o número do log de busca: ")
+        x = int(input())
+
+        print("A posicao encontrada foi: ")
+        print(interpolation_search(orderedLogs,x))
+
     else:
         print('Opção inválida!')
 
