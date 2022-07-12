@@ -269,17 +269,16 @@ def interpolation_search(array, x):
 
     return -1
 
-def buscaBinaria(valor, vetor, esquerda, direita):
-    meio = int((esquerda + direita) / 2)
-
-    if esquerda <= direita:
-        if valor > vetor[meio]:
-            esquerda = meio + 1
-            return buscaBinaria(valor, vetor, esquerda, direita)
-        elif valor < vetor[meio]:
+def buscaBinaria(valor, vetor):
+    esquerda, direita = 0, len(vetor) - 1
+    while esquerda <= direita:
+        meio = (esquerda + direita) // 2
+        if vetor[meio] == valor:
+            return meio
+        elif vetor[meio] > valor:
             direita = meio - 1
-            return buscaBinaria(valor, vetor, esquerda, direita)
-        return meio
+        else:  # A[meio] < item
+            esquerda = meio + 1
     return -1
 
 
@@ -473,7 +472,7 @@ if __name__ == "__main__":
         x = int(input())
 
         print("A posicao encontrada foi: ")
-        print(buscaBinaria(x, orderedLogs, orderedLogs[0], orderedLogs[len(orderedLogs) - 1]))
+        print(buscaBinaria(x, orderedLogs))
 
     elif option == "11":
         print("Ordenando os logs.")
