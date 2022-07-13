@@ -253,10 +253,11 @@ def interpolation_search(array, x):
     array_low = array[low]
     array_high = array[high]
 
-    while ((low <= high) and (x >= array_low) and (x <= array_high)):
+    while (low <= high) and (x >= array_low) and (x <= array_high):
+        indices = []
         array_low = array[low]
         array_high = array[high]
-        pos = (int)(low + ((high - low)/(array_high - array_low))*(x - array_low))
+        pos = int(low + ((high - low) / (array_high - array_low)) * (x - array_low))
 
         if array[pos] < x:
             low = pos+1
@@ -265,7 +266,19 @@ def interpolation_search(array, x):
             high = pos-1
 
         else:
-            return pos
+            indices.append(pos)
+            meioDir = pos + 1
+            meioEsq = pos - 1
+            while True:
+                if array[meioDir] == array:
+                    indices.append(meioDir)
+                if array[meioEsq] == array:
+                    indices.append(meioEsq)
+                if array[meioEsq] != array and array[meioDir] != array:
+                    break
+                meioEsq += 1
+                meioDir += 1
+            return indices
 
     return -1
 
@@ -279,11 +292,11 @@ def buscaBinaria(valor, vetor):
             meioDir = meio+1
             meioEsq = meio-1
             while True:
-                if(vetor[meioDir] == valor):
+                if vetor[meioDir] == valor:
                     indices.append(meioDir)
-                if(vetor[meioEsq] == valor):
+                if vetor[meioEsq] == valor:
                     indices.append(meioEsq)
-                if(vetor[meioEsq] != valor and vetor[meioDir] != valor):
+                if vetor[meioEsq] != valor and vetor[meioDir] != valor:
                     break
                 meioEsq +=1
                 meioDir +=1
