@@ -281,6 +281,35 @@ def buscaBinaria(valor, vetor):
             esquerda = meio + 1
     return -1
 
+def hash_by_division(input_array):
+    hash_table = [[] for _ in range(100000)]
+
+    def _hashing(keyvalue):
+        return keyvalue % len(hash_table)
+
+    def _insert(hash_table, keyvalue, value):
+        i = _hashing(keyvalue)
+        
+        hash_table[i].append(value)
+        return i
+
+    for i in input_array:
+        _insert(hash_table, i.get("log"), i)  
+
+    def _display_hash(hash_table):
+      
+        for i in range(len(hash_table)):
+            print(i, end = " ")
+            
+            for j in hash_table[i]:
+                print("-->", end = " ")
+                print(j, end = " ")
+                
+            print()
+
+    _display_hash(hash_table)     
+
+    
 
 def heapSort(A):
     hs_array = A
@@ -346,6 +375,7 @@ if __name__ == "__main__":
     print("--- Buscas ---")
     print("10 - Busca Binária")
     print("11 - Busca por Intepolação")
+    print("12 - Hash Table por Divisão")
     option = input()
     if option == "1":
         print("Ordenando os logs. Tempo estimado: 0.25s")
@@ -362,6 +392,7 @@ if __name__ == "__main__":
                 vet_aux.append(i)
 
         print("O impostor é " + vet_aux.pop().get('user'))
+        print("Adeus cidadão sborniano! Que a paz o acompanhe.")
 
     elif option == "2":
         print("Ordenando os logs. Tempo estimado: 0.15s")
@@ -376,6 +407,8 @@ if __name__ == "__main__":
         for i in logs_to_order:
             if i.get('log') == log_guilted:
                 print('Impostor encontrado: ', i.get('user'))
+        print("Adeus cidadão sborniano! Que a paz o acompanhe.")
+
     elif option == "3":
         print("Ordenando os logs. Tempo estimado: 0.15s")
         start = time.time()
@@ -391,6 +424,7 @@ if __name__ == "__main__":
                 vet_aux.append(i)
 
         print("O impostor é " + vet_aux.pop().get('user'))
+        print("Adeus cidadão sborniano! Que a paz o acompanhe.")
 
     elif option == "4":
         print("Ordenando os logs. Tempo estimado: 1.60s")
@@ -403,6 +437,7 @@ if __name__ == "__main__":
         index_guilted = (1000000 - (AUX - len(orderedLogs)))
         log_guilted = orderedLogs[index_guilted]
         print('Impostor encontrado: ', log_guilted.get('user'))
+        print("Adeus cidadão sborniano! Que a paz o acompanhe.")
 
     elif option == "5":
         print("Ordenando os logs. Tempo estimado: 1.60s")
@@ -414,6 +449,7 @@ if __name__ == "__main__":
         index_guilted = (1000000 - (AUX - len(orderedLogs)))
         log_guilted = orderedLogs[index_guilted]
         print('Impostor encontrado: ', log_guilted.get('user'))
+        print("Adeus cidadão sborniano! Que a paz o acompanhe.")
 
     elif option == "6":
         print("Ordenando os logs. Tempo estimado: 3.60s")
@@ -426,6 +462,7 @@ if __name__ == "__main__":
         index_guilted = (1000000 - (AUX - len(orderedLogs)))
         log_guilted = orderedLogs[index_guilted]
         print('Impostor encontrado: ', log_guilted.get('user'))
+        print("Adeus cidadão sborniano! Que a paz o acompanhe.")
 
     elif option == "7":
         print("Ordenando os logs. Tempo estimado: 4h")
@@ -438,6 +475,7 @@ if __name__ == "__main__":
         index_guilted = (1000000 - (AUX - len(orderedLogs)))
         log_guilted = orderedLogs[index_guilted]
         print('Impostor encontrado: ', log_guilted.get('user'))
+        print("Adeus cidadão sborniano! Que a paz o acompanhe.")
 
     elif option == "8":
         print("Ordenando os logs. Tempo estimado: 4h")
@@ -450,6 +488,7 @@ if __name__ == "__main__":
         index_guilted = (1000000 - (AUX - len(orderedLogs)))
         log_guilted = orderedLogs[index_guilted]
         print('Impostor encontrado: ', log_guilted.get('user'))
+        print("Adeus cidadão sborniano! Que a paz o acompanhe.")
 
     elif option == "9":
         print("Ordenando os logs. Tempo estimado: 23h")
@@ -462,6 +501,8 @@ if __name__ == "__main__":
         index_guilted = (1000000 - (AUX - len(orderedLogs)))
         log_guilted = orderedLogs[index_guilted]
         print('Impostor encontrado: ', log_guilted.get('user'))
+        print("Adeus cidadão sborniano! Que a paz o acompanhe.")
+
     elif option == "10":
         print("Ordenando os logs.")
         start = time.time()
@@ -486,8 +527,21 @@ if __name__ == "__main__":
         print("A posicao encontrada foi: ")
         print(interpolation_search(orderedLogs,x))
 
+    elif option == "12":
+        print("Ordenando os logs.")
+        start = time.time()
+        orderedLogs = countingSortStable(get_all_data(), len(logs_to_order))
+        end = time.time()
+        print("Logs ordenados. Tempo de execução: " + str(end - start))
+
+        print("Digite o número do log de busca: ")
+        x = int(input())
+
+        print("Realizando hash dos dados...")
+        hash_by_division(logs_to_order);
+
     else:
         print('Opção inválida!')
 
 
-    print("Adeus cidadão sborniano! Que a paz o acompanhe.")
+    
