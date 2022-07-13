@@ -10,7 +10,9 @@ def get_all_data():
     for i in get_full_data():
         infos = {
             'user': i['user'],
-            'log': i['log']
+            'log': i['log'],
+            'month': i['month'],
+            'msg': i['msg']
         }
         vet.append(infos)
     return vet
@@ -285,6 +287,7 @@ def buscaBinaria(valor, vetor):
     return -1
 
 def hash_by_division(input_array):
+    print("Criando o hash table...")
     hash_table = [[] for _ in range(100000)]
 
     def _hashing(keyvalue):
@@ -298,17 +301,6 @@ def hash_by_division(input_array):
 
     for i in input_array:
         _insert(hash_table, i.get("log"), i)
-
-    def _display_hash(hash_table):
-      
-        for i in range(len(hash_table)):
-            print(i, end = " ")
-            
-            for j in hash_table[i]:
-                print("-->", end = " ")
-                print(j, end = " ")
-                
-            print()
 
     return hash_table
 
@@ -358,6 +350,15 @@ def bubbleSort(A, n):
                 A[i + 1] = aux
                 change = True
 
+def display_hash(hash_table):
+    for i in hash_table:
+        print(i.get('user'), end=" ")
+        print("-->", end=" ")
+        print(i, end=" ")
+
+        print()
+
+
 if __name__ == "__main__":
     vet_aux = []
     print("Lendo os logs da nave...")
@@ -381,6 +382,7 @@ if __name__ == "__main__":
     print("--- Buscas Dados de Um Mes ---")
     print("12 - Busca Binária")
     print("13 - Busca por Intepolação")
+
     print("14 - Hash Table por Divisão")
     option = input()
     if option == "1":
@@ -514,28 +516,28 @@ if __name__ == "__main__":
         x = int(input())
 
         print("A posicao encontrada foi: ")
-        print(buscaBinaria(x, get_all_data()))
+        display_hash(buscaBinaria(x, get_all_data()))
 
     elif option == "11":
         print("Digite o número do log de busca: ")
         x = int(input())
 
         print("A posicao encontrada foi: ")
-        print(interpolation_search(get_all_data(),x))
+        display_hash(interpolation_search(get_all_data(),x))
 
     elif option == "12":
         print("Digite o número do log de busca: ")
         x = int(input())
 
         print("A posicao encontrada foi: ")
-        print(buscaBinaria(x, logs_to_order))
+        display_hash(buscaBinaria(x, logs_to_order))
 
     elif option == "13":
         print("Digite o número do log de busca: ")
         x = int(input())
 
         print("A posicao encontrada foi: ")
-        print(interpolation_search(logs_to_order,x))
+        display_hash(interpolation_search(logs_to_order,x))
 
     elif option == "14":
         print("Ordenando os logs.")
