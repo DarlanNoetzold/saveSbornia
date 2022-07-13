@@ -247,61 +247,38 @@ def mergeSort(A):
     return ms_array
 
 def interpolation_search(array, x):
+    array = hash_by_division(array)
+
     low = 0
     high = len(array) - 1
 
-    array_low = array[low]
-    array_high = array[high]
+    array_low = array[low][0].get("log")
+    array_high = array[high][0].get("log")
 
     while (low <= high) and (x >= array_low) and (x <= array_high):
-        indices = []
-        array_low = array[low]
-        array_high = array[high]
+        array_low = array[low][0].get("log")
+        array_high = array[high][0].get("log")
         pos = int(low + ((high - low) / (array_high - array_low)) * (x - array_low))
 
-        if array[pos] < x:
+        if array[pos][0].get("log") < x:
             low = pos+1
 
-        elif array[pos] > x:
+        elif array[pos][0].get("log") > x:
             high = pos-1
 
         else:
-            indices.append(pos)
-            meioDir = pos + 1
-            meioEsq = pos - 1
-            while True:
-                if array[meioDir] == array:
-                    indices.append(meioDir)
-                if array[meioEsq] == array:
-                    indices.append(meioEsq)
-                if array[meioEsq] != array and array[meioDir] != array:
-                    break
-                meioEsq += 1
-                meioDir += 1
-            return indices
+            return array[pos]
 
     return -1
 
 def buscaBinaria(valor, vetor):
-    indices = []
+    vetor = hash_by_division(vetor)
     esquerda, direita = 0, len(vetor) - 1
     while esquerda <= direita:
         meio = (esquerda + direita) // 2
-        if vetor[meio] == valor:
-            indices.append(meio)
-            meioDir = meio+1
-            meioEsq = meio-1
-            while True:
-                if vetor[meioDir] == valor:
-                    indices.append(meioDir)
-                if vetor[meioEsq] == valor:
-                    indices.append(meioEsq)
-                if vetor[meioEsq] != valor and vetor[meioDir] != valor:
-                    break
-                meioEsq +=1
-                meioDir +=1
-            return indices
-        elif vetor[meio] > valor:
+        if vetor[meio][0].get("log") == valor:
+            return vetor[meio]
+        elif vetor[meio][0].get("log") > valor:
             direita = meio - 1
         else:  # A[meio] < item
             esquerda = meio + 1
@@ -320,7 +297,7 @@ def hash_by_division(input_array):
         return i
 
     for i in input_array:
-        _insert(hash_table, i.get("log"), i)  
+        _insert(hash_table, i.get("log"), i)
 
     def _display_hash(hash_table):
       
@@ -333,7 +310,7 @@ def hash_by_division(input_array):
                 
             print()
 
-    _display_hash(hash_table)     
+    return hash_table
 
     
 
@@ -398,10 +375,13 @@ if __name__ == "__main__":
     print("7 - Insertion Sort")
     print("8 - Selection Sort")
     print("9 - Bubble Sort (Iterative)")
-    print("--- Buscas ---")
+    print("--- Buscas Todos Dados---")
     print("10 - Busca Binária")
     print("11 - Busca por Intepolação")
-    print("12 - Hash Table por Divisão")
+    print("--- Buscas Dados de Um Mes ---")
+    print("12 - Busca Binária")
+    print("13 - Busca por Intepolação")
+    print("14 - Hash Table por Divisão")
     option = input()
     if option == "1":
         print("Ordenando os logs. Tempo estimado: 0.25s")
@@ -530,30 +510,34 @@ if __name__ == "__main__":
         print("Adeus cidadão sborniano! Que a paz o acompanhe.")
 
     elif option == "10":
-        print("Ordenando os logs.")
-        start = time.time()
-        orderedLogs = countingSortStable(get_all_data(), len(logs_to_order))
-        end = time.time()
-        print("Logs ordenados. Tempo de execução: " + str(end - start))
         print("Digite o número do log de busca: ")
         x = int(input())
 
         print("A posicao encontrada foi: ")
-        print(buscaBinaria(x, orderedLogs))
+        print(buscaBinaria(x, get_all_data()))
 
     elif option == "11":
-        print("Ordenando os logs.")
-        start = time.time()
-        orderedLogs = countingSortStable(get_all_data(), len(logs_to_order))
-        end = time.time()
-        print("Logs ordenados. Tempo de execução: " + str(end - start))
         print("Digite o número do log de busca: ")
         x = int(input())
 
         print("A posicao encontrada foi: ")
-        print(interpolation_search(orderedLogs,x))
+        print(interpolation_search(get_all_data(),x))
 
     elif option == "12":
+        print("Digite o número do log de busca: ")
+        x = int(input())
+
+        print("A posicao encontrada foi: ")
+        print(buscaBinaria(x, logs_to_order))
+
+    elif option == "13":
+        print("Digite o número do log de busca: ")
+        x = int(input())
+
+        print("A posicao encontrada foi: ")
+        print(interpolation_search(logs_to_order,x))
+
+    elif option == "14":
         print("Ordenando os logs.")
         start = time.time()
         orderedLogs = countingSortStable(get_all_data(), len(logs_to_order))
@@ -564,7 +548,7 @@ if __name__ == "__main__":
         x = int(input())
 
         print("Realizando hash dos dados...")
-        hash_by_division(logs_to_order);
+        hash_by_division(logs_to_order)
 
     else:
         print('Opção inválida!')
