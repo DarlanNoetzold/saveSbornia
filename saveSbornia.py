@@ -270,11 +270,24 @@ def interpolation_search(array, x):
     return -1
 
 def buscaBinaria(valor, vetor):
+    indices = []
     esquerda, direita = 0, len(vetor) - 1
     while esquerda <= direita:
         meio = (esquerda + direita) // 2
         if vetor[meio] == valor:
-            return meio
+            indices.append(meio)
+            meioDir = meio+1
+            meioEsq = meio-1
+            while True:
+                if(vetor[meioDir] == valor):
+                    indices.append(meioDir)
+                if(vetor[meioEsq] == valor):
+                    indices.append(meioEsq)
+                if(vetor[meioEsq] != valor and vetor[meioDir] != valor):
+                    break
+                meioEsq +=1
+                meioDir +=1
+            return indices
         elif vetor[meio] > valor:
             direita = meio - 1
         else:  # A[meio] < item
