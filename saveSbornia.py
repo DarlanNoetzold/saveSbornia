@@ -22,7 +22,9 @@ def get_logs_of_month():
     for i in get_full_data():
         infos = {
             'user': i['user'],
-            'log': i['log']
+            'log': i['log'],
+            'month': i['month'],
+            'msg': i['msg']
         }
 
         if i['month'] == 'January':
@@ -249,19 +251,23 @@ def mergeSort(A):
     return ms_array
 
 def interpolation_search(array, x):
-    array = hash_by_division(array)
-
     low = 0
-    high = len(array) - 1
-
     array_low = array[low][0].get("log")
-    array_high = array[high][0].get("log")
+    aux = 1
+    while True:
+        try:
+            high = len(array) - aux
+            array_high = array[high][0].get("log")
+            break
+        except Exception:
+            aux += 1
 
     while (low <= high) and (x >= array_low) and (x <= array_high):
+        if len(array[low]) == 0 or len(array[high]) == 0: continue
         array_low = array[low][0].get("log")
         array_high = array[high][0].get("log")
         pos = int(low + ((high - low) / (array_high - array_low)) * (x - array_low))
-
+        if len(array[pos]) == 0: continue
         if array[pos][0].get("log") < x:
             low = pos+1
 
@@ -274,7 +280,6 @@ def interpolation_search(array, x):
     return -1
 
 def buscaBinaria(valor, vetor):
-    vetor = hash_by_division(vetor)
     esquerda, direita = 0, len(vetor) - 1
     while esquerda <= direita:
         meio = (esquerda + direita) // 2
@@ -351,12 +356,22 @@ def bubbleSort(A, n):
                 change = True
 
 def display_hash(hash_table):
+    if hash_table == -1:
+        print("Valor não existe!")
+        return
     for i in hash_table:
         print(i.get('user'), end=" ")
         print("-->", end=" ")
         print(i, end=" ")
 
         print()
+
+def normalize_data(hash_table):
+    for i in hash_table:
+        if len(i) == 0:
+            hash_table.remove(i)
+
+    return hash_table
 
 
 if __name__ == "__main__":
@@ -383,7 +398,6 @@ if __name__ == "__main__":
     print("12 - Busca Binária")
     print("13 - Busca por Intepolação")
 
-    print("14 - Hash Table por Divisão")
     option = input()
     if option == "1":
         print("Ordenando os logs. Tempo estimado: 0.25s")
@@ -515,42 +529,60 @@ if __name__ == "__main__":
         print("Digite o número do log de busca: ")
         x = int(input())
 
+        start = time.time()
+        hash_table = hash_by_division(get_all_data())
+        end = time.time()
+        print("Hash Table criado. Tempo de execução: " + str(end - start))
+
         print("A posicao encontrada foi: ")
-        display_hash(buscaBinaria(x, get_all_data()))
+        start = time.time()
+        display_hash(buscaBinaria(x, hash_table))
+        end = time.time()
+        print("Busca Binária com tempo de execução de: " + str(end - start))
 
     elif option == "11":
         print("Digite o número do log de busca: ")
         x = int(input())
 
+        start = time.time()
+        hash_table = hash_by_division(get_all_data())
+        end = time.time()
+        print("Hash Table criado. Tempo de execução: " + str(end - start))
         print("A posicao encontrada foi: ")
-        display_hash(interpolation_search(get_all_data(),x))
+        start = time.time()
+        display_hash(interpolation_search(hash_table,x))
+        end = time.time()
+        print("Busca Interpolada com tempo de execução de: " + str(end - start))
 
     elif option == "12":
         print("Digite o número do log de busca: ")
         x = int(input())
 
+        start = time.time()
+        hash_table = hash_by_division(logs_to_order)
+        end = time.time()
+        print("Hash Table criado. Tempo de execução: " + str(end - start))
+        hash_table = normalize_data(hash_table)
         print("A posicao encontrada foi: ")
-        display_hash(buscaBinaria(x, logs_to_order))
+        start = time.time()
+        display_hash(buscaBinaria(x, hash_table))
+        end = time.time()
+        print("Busca Binária com tempo de execução de: " + str(end - start))
 
     elif option == "13":
         print("Digite o número do log de busca: ")
         x = int(input())
 
-        print("A posicao encontrada foi: ")
-        display_hash(interpolation_search(logs_to_order,x))
-
-    elif option == "14":
-        print("Ordenando os logs.")
         start = time.time()
-        orderedLogs = countingSortStable(get_all_data(), len(logs_to_order))
+        hash_table = hash_by_division(logs_to_order)
         end = time.time()
-        print("Logs ordenados. Tempo de execução: " + str(end - start))
+        print("Hash Table criado. Tempo de execução: " + str(end - start))
 
-        print("Digite o número do log de busca: ")
-        x = int(input())
-
-        print("Realizando hash dos dados...")
-        hash_by_division(logs_to_order)
+        print("A posicao encontrada foi: ")
+        start = time.time()
+        display_hash(interpolation_search(hash_table,x))
+        end = time.time()
+        print("Busca Interpolada com tempo de execução de: " + str(end - start))
 
     else:
         print('Opção inválida!')
