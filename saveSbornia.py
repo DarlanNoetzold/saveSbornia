@@ -279,7 +279,7 @@ def interpolation_search(array, x):
 
     return -1
 
-def buscaBinaria(valor, vetor):
+def busca_binaria(valor, vetor):
     esquerda, direita = 0, len(vetor) - 1
     while esquerda <= direita:
         meio = (esquerda + direita) // 2
@@ -536,7 +536,7 @@ if __name__ == "__main__":
 
         print("A posicao encontrada foi: ")
         start = time.time()
-        display_hash(buscaBinaria(x, hash_table))
+        display_hash(busca_binaria(x, hash_table))
         end = time.time()
         print("Busca Binária com tempo de execução de: " + str(end - start))
 
@@ -565,7 +565,7 @@ if __name__ == "__main__":
         hash_table = normalize_data(hash_table)
         print("A posicao encontrada foi: ")
         start = time.time()
-        display_hash(buscaBinaria(x, hash_table))
+        display_hash(busca_binaria(x, hash_table))
         end = time.time()
         print("Busca Binária com tempo de execução de: " + str(end - start))
 
