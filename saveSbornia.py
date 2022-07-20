@@ -293,7 +293,7 @@ def busca_binaria(valor, vetor):
 
 def hash_by_division(input_array):
     print("Criando o hash table...")
-    hash_table = [[] for _ in range(100000)]
+    hash_table = [[] for _ in range(104729)]
 
     def _hashing(keyvalue):
         return keyvalue % len(hash_table)
